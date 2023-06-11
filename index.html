@@ -1,0 +1,3381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leadership | Espoused & Enacted Values</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .header {
+      background-color: #fff;
+      padding: 10px 20px;
+      text-align: right;
+      color: #333;
+      max-width: 300px;
+      word-wrap: break-word;
+    }
+
+    .container {
+      text-align: left;
+      padding: 20px;
+      background-color: #fff;
+      width: 75%;
+      max-width: 400px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 25px;
+      margin-bottom: 20px;
+      color: #301934;
+    }
+
+    .placeholder-text {
+      font-size: 15px;
+      color: #999;
+      margin-top: 5px;
+    }
+
+    label {
+      font-size: 18px;
+    }
+
+    .input-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      padding: 12px;
+      font-size: 18px;
+      border: 1px solid #ccc;
+      width: 100%;
+      flex: 1;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 18px;
+      background-color: #301934;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 16px;
+    }
+
+    .popup {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+
+    .popup .popuptext {
+      visibility: hidden;
+      width: 200px;
+      background-color: #555;
+      color: #fff;
+      font-size: 9px;
+      text-align: left;
+      border-radius: 6px;
+      padding: 12px 0;
+      position: absolute;
+      z-index: 1;
+      top: 125%;
+      left: 50%;
+      margin-left: -90px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .popup .popuptext::after {
+      content: "";
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent transparent #555 transparent;
+    }
+
+    .popup:hover .popuptext {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .header p {
+      font-size: 12px;
+      color: #999;
+    }
+
+    .fade-text {
+      font-size: 30px;
+      color: #ddd;
+      animation: fade 5s infinite;
+    }
+
+    @keyframes fade {
+      0%, 100% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Leadership | Nick Labun</h1>
+    <p><b>Organizational culture</b> is manifested in several ways, perhaps the most tangible and direct being statements of mission, purpose, or vision. These are the <b>espoused values</b> of an organization – "the desired culture" – which can often be in conflict with the <b>enacted values</b> lived and experienced by members of the organization. This quick-and-dirty analysis is intended to explore commonalities in espoused values across large, high-performing organizations…and maybe across notable defunct organizations as well.</p>
+  </div>
+  <div class="container">
+    <h1>Espoused values, enacted values</h1>
+    <p class="placeholder-text">Enter a lofty adjective or noun</p>
+    <div class="input-container">
+      <input type="text" id="word" />
+      <button onclick="getWordCount()"><i class="fas fa-arrow-right"></i></button>
+    </div>
+    <div id="result"></div>
+
+    <div style="text-align: center; margin-top: 20px;">
+      <span class="popup">
+        <span class="placeholder">Methodology</span>
+        <span class="popuptext">This mostly-unscientific analysis identifies how frequently common adjectives and nouns appear across published statements of mission, purpose, vision, or values of 2023 Fortune 30 companies, as well as records of the same statements from notable defunct companies. A corpus of these statements was created by manually scraping of relevant active or archived web pages for each company, and analyzed with NLP in Python to measure frequency of co-occurence of nouns and adjectives across companies. Note that this approach does not account for semantic word/phrase meaning and is limited by minimal data cleaning of the corpus (such as filtering of adverbs and pronouns) and limited text datasets for both "successful" and "failed" companies.</span>
+      </span>
+      <span style="margin: 0 10px;">|</span>
+      <span class="popup">
+        <span class="placeholder">Sources & credits</span>
+        <span class="popuptext">All content on organizational culture courtesy of Professor Nate Pettit. The text corpus for this project was sourced from web pages for each respective company, either via live website or an archived version made available by Internet Archive. Analysis of the statement corpus was implemented using the TextBlob Python library. Special thanks to ChatGPT for its critical role in research, analysis, coding, and companionship. Prepared as NYU Stern Summer 2023 Leadership Course Takeaways assignment by Nick Labun.</span>
+      </span>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px;">
+      <p class="fade-text">try "integrity"</p>
+    </div>
+  </div>
+
+  <script>
+    const words = ['try "environment"','try "diversity"','try "integrity"', 'try "inclusion"', 'try "values"', 'try "mission"', 'try "culture"', 'try "vision"', 'try "commitment"', 'try "sustainable"'];
+    let index = 0;
+
+    function fadeText() {
+      const fadeElement = document.querySelector('.fade-text');
+      fadeElement.textContent = words[index];
+      index = (index + 1) % words.length;
+    }
+
+    setInterval(fadeText, 5000);
+
+    function getWordCount() {
+      var word = document.getElementById('word').value.toLowerCase();
+      var wordCounts = JSON.parse(document.getElementById('word-counts').textContent);
+      var resultElement = document.getElementById('result');
+
+      var wordData = wordCounts.find(function(data) {
+        return data.Word.toLowerCase() === word;
+      });
+
+      if (wordData) {
+        var frequency = wordData.Freq;
+        var companiesA = wordData.CompaniesA;
+        var companiesB = wordData.CompaniesB;
+
+        resultElement.textContent = "The word \"" + word + "\" appears in " + frequency + " of Fortune 30 vision, purpose, or mission statements," + companiesA + companiesB;
+      } else {
+        resultElement.textContent = "That word doesn't seem to appear often in Fortune 30 vision, purpose, or mission statements.";
+      }
+    }
+  </script>
+  <! -- Hardcoded JSON because I'm submitting a single HTML file and I got lazy -->
+  <script type="text/json" id="word-counts">
+[
+   {
+      "Word":"quality",
+      "Freq":"10%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen, and CVS Health. ",
+      "CompaniesB":"It was also mentioned by Theranos."
+   },
+   {
+      "Word":"their",
+      "Freq":"30%",
+      "CompaniesA":" including Amazon,  Apple,  CVS Health,  Ford Motor, and Kroger. ",
+      "CompaniesB":"It was also mentioned by Borders,  First Republic,  Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"decisions",
+      "Freq":"7%",
+      "CompaniesA":" including Amazon, and McKesson. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"behalf",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"must",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"may",
+      "Freq":"7%",
+      "CompaniesA":" including Amazon, and Costco. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"customers",
+      "Freq":"47%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Apple,  AT&T, and Cigna. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron, and Washington Mutual."
+   },
+   {
+      "Word":"hire",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":"It was also mentioned by First Republic."
+   },
+   {
+      "Word":"leaders",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":"It was also mentioned by Borders, and GE."
+   },
+   {
+      "Word":"world",
+      "Freq":"47%",
+      "CompaniesA":" including Amazon,  Chevron,  Costco,  Elevance, and Ford Motor. ",
+      "CompaniesB":"It was also mentioned by Borders,  GE, and Theranos."
+   },
+   {
+      "Word":"success",
+      "Freq":"17%",
+      "CompaniesA":" including Amazon,  ExxonMobil,  JPMorgan Chase & Co,  McKesson, and Valero. ",
+      "CompaniesB":"It was also mentioned by Borders,  Lehman Brothers, and Washington Mutual."
+   },
+   {
+      "Word":"diverse",
+      "Freq":"13%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  GM, and Phillips 66. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"deliver",
+      "Freq":"27%",
+      "CompaniesA":" including Amazon,  CardinalHealth,  Chevron,  CVS Health, and Elevance. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"people",
+      "Freq":"57%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Centene,  Chevron, and Comcast. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  First Republic,  GE, and Lehman Brothers."
+   },
+   {
+      "Word":"always",
+      "Freq":"7%",
+      "CompaniesA":" including Amazon, and Kroger. ",
+      "CompaniesB":"It was also mentioned by First Republic."
+   },
+   {
+      "Word":"thinking",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"need",
+      "Freq":"10%",
+      "CompaniesA":" including Amazon,  Kroger, and UnitedHealth. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"teams",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"curious",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"make",
+      "Freq":"30%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  AT&T,  Chevron, and Comcast. ",
+      "CompaniesB":"It was also mentioned by Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"better",
+      "Freq":"27%",
+      "CompaniesA":" including Amazon,  Cigna,  Elevance,  Ford Motor, and McKesson. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"company",
+      "Freq":"33%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Comcast,  Elevance, and Ford Motor. ",
+      "CompaniesB":"It was also mentioned by Adelphia,  Borders,  Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"value",
+      "Freq":"23%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Kroger,  Marathon, and Phillips 66. ",
+      "CompaniesB":"It was also mentioned by Borders,  Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"are",
+      "Freq":"70%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Apple,  CardinalHealth, and Comcast. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  First Republic,  GE, and Lehman Brothers."
+   },
+   {
+      "Word":"results",
+      "Freq":"10%",
+      "CompaniesA":" including Amazon,  Chevron, and McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"seek",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"is",
+      "Freq":"67%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Apple,  AT&T, and CardinalHealth. ",
+      "CompaniesB":"It was also mentioned by Adelphia,  Borders,  Enron,  First Republic, and GE."
+   },
+   {
+      "Word":"them",
+      "Freq":"7%",
+      "CompaniesA":" including Amazon, and Kroger. ",
+      "CompaniesB":"It was also mentioned by First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"amazon",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"at",
+      "Freq":"47%",
+      "CompaniesA":" including Amazon,  Apple,  AT&T,  CardinalHealth, and Centene. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  First Republic,  GE, and Lehman Brothers."
+   },
+   {
+      "Word":"fire",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"with",
+      "Freq":"70%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Apple,  Chevron, and Comcast. ",
+      "CompaniesB":"It was also mentioned by Adelphia,  Borders,  Enron,  GE, and Lehman Brothers."
+   },
+   {
+      "Word":"focus",
+      "Freq":"13%",
+      "CompaniesA":" including Amazon,  Costco,  McKesson, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"think",
+      "Freq":"7%",
+      "CompaniesA":" including Amazon, and AT&T. ",
+      "CompaniesB":"It was also mentioned by First Republic."
+   },
+   {
+      "Word":"to",
+      "Freq":"93%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Apple,  AT&T, and CardinalHealth. ",
+      "CompaniesB":"It was also mentioned by Adelphia,  Borders,  Enron,  First Republic, and GE."
+   },
+   {
+      "Word":"team",
+      "Freq":"13%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Apple, and GM. ",
+      "CompaniesB":"It was also mentioned by Borders,  First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"many",
+      "Freq":"7%",
+      "CompaniesA":" including Amazon, and Verizon. ",
+      "CompaniesB":"It was also mentioned by GE, and Washington Mutual."
+   },
+   {
+      "Word":"others",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":"It was also mentioned by Enron."
+   },
+   {
+      "Word":"even",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"things",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":"It was also mentioned by First Republic."
+   },
+   {
+      "Word":"fixed",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"that",
+      "Freq":"67%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Apple,  AT&T, and CardinalHealth. ",
+      "CompaniesB":"It was also mentioned by Adelphia,  Borders,  Enron,  First Republic, and GE."
+   },
+   {
+      "Word":"a",
+      "Freq":"83%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Apple,  AT&T, and CardinalHealth. ",
+      "CompaniesB":"It was also mentioned by Adelphia,  ArthurAndersen,  Borders,  Enron, and First Republic."
+   },
+   {
+      "Word":"there",
+      "Freq":"7%",
+      "CompaniesA":" including Amazon, and AT&T. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"disagree",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"career",
+      "Freq":"7%",
+      "CompaniesA":" including Amazon, and Verizon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"more",
+      "Freq":"40%",
+      "CompaniesA":" including Amazon,  Apple,  Centene,  Comcast, and Costco. ",
+      "CompaniesB":"It was also mentioned by Borders,  GE, and Washington Mutual."
+   },
+   {
+      "Word":"high",
+      "Freq":"10%",
+      "CompaniesA":" including Amazon,  Apple, and ExxonMobil. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"the",
+      "Freq":"93%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Apple,  AT&T, and CardinalHealth. ",
+      "CompaniesB":"It was also mentioned by Adelphia,  Borders,  Enron,  First Republic, and GE."
+   },
+   {
+      "Word":"ways",
+      "Freq":"10%",
+      "CompaniesA":" including Amazon,  Phillips 66, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"invention",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"best",
+      "Freq":"13%",
+      "CompaniesA":" including Amazon,  AT&T,  Comcast, and McKesson. ",
+      "CompaniesB":"It was also mentioned by Borders,  First Republic,  Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"stay",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"on",
+      "Freq":"43%",
+      "CompaniesA":" including Amazon,  CardinalHealth,  Costco,  CVS Health, and ExxonMobil. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"new",
+      "Freq":"17%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  McKesson,  Phillips 66, and Verizon. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron, and Washington Mutual."
+   },
+   {
+      "Word":"have",
+      "Freq":"23%",
+      "CompaniesA":" including Amazon,  Apple,  CardinalHealth,  Comcast, and Costco. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"our",
+      "Freq":"90%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Apple,  AT&T, and CardinalHealth. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  First Republic,  GE, and Lehman Brothers."
+   },
+   {
+      "Word":"my",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"lot",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"from",
+      "Freq":"37%",
+      "CompaniesA":" including Amazon,  AT&T,  Centene,  CVS Health, and Elevance. ",
+      "CompaniesB":"It was also mentioned by Borders,  GE,  Lehman Brothers, and Washington Mutual."
+   },
+   {
+      "Word":"create",
+      "Freq":"30%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Apple,  Centene, and Comcast. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"fun",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":"It was also mentioned by First Republic."
+   },
+   {
+      "Word":"kindle",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"look",
+      "Freq":"7%",
+      "CompaniesA":" including Amazon, and Verizon. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"commit",
+      "Freq":"10%",
+      "CompaniesA":" including Amazon,  ExxonMobil, and McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"in",
+      "Freq":"80%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Apple,  AT&T, and CardinalHealth. ",
+      "CompaniesB":"It was also mentioned by ArthurAndersen,  Borders,  Enron,  First Republic, and GE."
+   },
+   {
+      "Word":"long",
+      "Freq":"10%",
+      "CompaniesA":" including Amazon,  Comcast, and JPMorgan Chase & Co. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"bar",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"or",
+      "Freq":"10%",
+      "CompaniesA":" including Amazon,  Costco, and Kroger. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"we",
+      "Freq":"90%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Apple,  AT&T, and CardinalHealth. ",
+      "CompaniesB":"It was also mentioned by Adelphia,  ArthurAndersen,  Borders,  Enron, and First Republic."
+   },
+   {
+      "Word":"big",
+      "Freq":"7%",
+      "CompaniesA":" including Amazon, and AT&T. ",
+      "CompaniesB":"It was also mentioned by GE."
+   },
+   {
+      "Word":"earth",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"develop",
+      "Freq":"10%",
+      "CompaniesA":" including Amazon,  Chevron, and McKesson. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"actions",
+      "Freq":"7%",
+      "CompaniesA":" including Amazon, and Chevron. ",
+      "CompaniesB":"It was also mentioned by Theranos."
+   },
+   {
+      "Word":"earn",
+      "Freq":"7%",
+      "CompaniesA":" including Amazon, and CVS Health. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"day",
+      "Freq":"17%",
+      "CompaniesA":" including Amazon,  Chevron,  Comcast,  Ford Motor, and Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"so",
+      "Freq":"13%",
+      "CompaniesA":" including Amazon,  Kroger,  UnitedHealth, and Verizon. ",
+      "CompaniesB":"It was also mentioned by Theranos."
+   },
+   {
+      "Word":"business",
+      "Freq":"30%",
+      "CompaniesA":" including Amazon,  Apple,  Costco,  ExxonMobil, and JPMorgan Chase & Co. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  First Republic,  GE, and Lehman Brothers."
+   },
+   {
+      "Word":"commitment",
+      "Freq":"17%",
+      "CompaniesA":" including Amazon,  Apple,  Costco,  McKesson, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"trust",
+      "Freq":"17%",
+      "CompaniesA":" including Amazon,  Chevron,  CVS Health,  Marathon, and UnitedHealth. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"than",
+      "Freq":"7%",
+      "CompaniesA":" including Amazon, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Borders,  GE, and Washington Mutual."
+   },
+   {
+      "Word":"act",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron, and First Republic."
+   },
+   {
+      "Word":"respectfully",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"do",
+      "Freq":"47%",
+      "CompaniesA":" including Amazon,  AT&T,  Comcast,  Costco, and CVS Health. ",
+      "CompaniesB":"It was also mentioned by Enron,  First Republic,  GE, and Washington Mutual."
+   },
+   {
+      "Word":"customer",
+      "Freq":"13%",
+      "CompaniesA":" including Amazon,  CVS Health,  GM, and Walgreens Boots Alliance. ",
+      "CompaniesB":"It was also mentioned by Borders, and Theranos."
+   },
+   {
+      "Word":"just",
+      "Freq":"7%",
+      "CompaniesA":" including Amazon, and Kroger. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"obsession",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"themselves",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"employer",
+      "Freq":"7%",
+      "CompaniesA":" including Amazon, and JPMorgan Chase & Co. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"standards",
+      "Freq":"17%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Apple,  ExxonMobil, and Valero. ",
+      "CompaniesB":"It was also mentioned by Enron."
+   },
+   {
+      "Word":"right",
+      "Freq":"20%",
+      "CompaniesA":" including Amazon,  AT&T,  Chevron,  Comcast, and CVS Health. ",
+      "CompaniesB":"It was also mentioned by Borders, and First Republic."
+   },
+   {
+      "Word":"about",
+      "Freq":"17%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Ford Motor,  Microsoft, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Borders,  First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"s",
+      "Freq":"57%",
+      "CompaniesA":" including Amazon,  Apple,  AT&T,  CardinalHealth, and Chevron. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  First Republic,  GE, and Silicon Valley Bank."
+   },
+   {
+      "Word":"work",
+      "Freq":"40%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Apple,  Chevron, and Comcast. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  First Republic,  GE, and Silicon Valley Bank."
+   },
+   {
+      "Word":"growing",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"when",
+      "Freq":"13%",
+      "CompaniesA":" including Amazon,  AT&T,  Kroger, and Verizon. ",
+      "CompaniesB":"It was also mentioned by Enron, and Theranos."
+   },
+   {
+      "Word":"never",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":"It was also mentioned by Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"of",
+      "Freq":"80%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Apple,  CardinalHealth, and Centene. ",
+      "CompaniesB":"It was also mentioned by Adelphia,  Borders,  Enron,  First Republic, and GE."
+   },
+   {
+      "Word":"be",
+      "Freq":"27%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  AT&T,  CardinalHealth, and Costco. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"no",
+      "Freq":"7%",
+      "CompaniesA":" including Amazon, and CVS Health. ",
+      "CompaniesB":"It was also mentioned by Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"every",
+      "Freq":"33%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  CardinalHealth,  CVS Health, and Ford Motor. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  First Republic,  GE, and Theranos."
+   },
+   {
+      "Word":"employees",
+      "Freq":"43%",
+      "CompaniesA":" including Amazon,  Apple,  Comcast,  Costco, and ExxonMobil. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  GE,  Lehman Brothers, and Theranos."
+   },
+   {
+      "Word":"and",
+      "Freq":"93%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Apple,  AT&T, and CardinalHealth. ",
+      "CompaniesB":"It was also mentioned by Adelphia,  ArthurAndersen,  Blockbuster,  Borders, and Enron."
+   },
+   {
+      "Word":"they",
+      "Freq":"17%",
+      "CompaniesA":" including Amazon,  Kroger,  Marathon,  McKesson, and UnitedHealth. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"doing",
+      "Freq":"13%",
+      "CompaniesA":" including Amazon,  Comcast,  Costco, and GM. ",
+      "CompaniesB":"It was also mentioned by First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"by",
+      "Freq":"50%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Chevron,  Comcast, and Costco. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  GE,  Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"simplify",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"invent",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"choice",
+      "Freq":"3%",
+      "CompaniesA":" including Amazon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"not",
+      "Freq":"7%",
+      "CompaniesA":" including Amazon, and Costco. ",
+      "CompaniesB":"It was also mentioned by Enron,  First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"for",
+      "Freq":"70%",
+      "CompaniesA":" including Amazon,  AmerisourceBergen,  Apple,  AT&T, and Chevron. ",
+      "CompaniesB":"It was also mentioned by ArthurAndersen,  Borders,  Enron,  First Republic, and GE."
+   },
+   {
+      "Word":"role",
+      "Freq":"3%",
+      "CompaniesA":" including AmerisourceBergen. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"committed",
+      "Freq":"23%",
+      "CompaniesA":" including AmerisourceBergen,  Apple,  Comcast,  Elevance, and ExxonMobil. ",
+      "CompaniesB":"It was also mentioned by Enron, and Washington Mutual."
+   },
+   {
+      "Word":"shared",
+      "Freq":"7%",
+      "CompaniesA":" including AmerisourceBergen, and McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"animals",
+      "Freq":"3%",
+      "CompaniesA":" including AmerisourceBergen. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"social",
+      "Freq":"7%",
+      "CompaniesA":" including AmerisourceBergen, and Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"highest",
+      "Freq":"10%",
+      "CompaniesA":" including AmerisourceBergen,  Chevron, and Valero. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"as",
+      "Freq":"53%",
+      "CompaniesA":" including AmerisourceBergen,  Centene,  Comcast,  Costco, and CVS Health. ",
+      "CompaniesB":"It was also mentioned by Adelphia,  Borders,  Enron,  GE, and Lehman Brothers."
+   },
+   {
+      "Word":"human",
+      "Freq":"7%",
+      "CompaniesA":" including AmerisourceBergen, and Chevron. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"respect",
+      "Freq":"13%",
+      "CompaniesA":" including AmerisourceBergen,  Chevron,  Comcast, and McKesson. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"environmental",
+      "Freq":"7%",
+      "CompaniesA":" including AmerisourceBergen, and Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"an",
+      "Freq":"37%",
+      "CompaniesA":" including AmerisourceBergen,  Apple,  Comcast,  Costco, and CVS Health. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  First Republic,  GE, and Lehman Brothers."
+   },
+   {
+      "Word":"impact",
+      "Freq":"10%",
+      "CompaniesA":" including AmerisourceBergen,  Costco, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"animal",
+      "Freq":"3%",
+      "CompaniesA":" including AmerisourceBergen. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"improve",
+      "Freq":"13%",
+      "CompaniesA":" including AmerisourceBergen,  Elevance,  Phillips 66, and Verizon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"healthcare",
+      "Freq":"13%",
+      "CompaniesA":" including AmerisourceBergen,  CardinalHealth,  Centene, and Walgreens Boots Alliance. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"understand",
+      "Freq":"7%",
+      "CompaniesA":" including AmerisourceBergen, and McKesson. ",
+      "CompaniesB":"It was also mentioned by Borders, and Enron."
+   },
+   {
+      "Word":"pursue",
+      "Freq":"10%",
+      "CompaniesA":" including AmerisourceBergen,  AT&T, and Ford Motor. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"members",
+      "Freq":"10%",
+      "CompaniesA":" including AmerisourceBergen,  Apple, and Costco. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"can",
+      "Freq":"27%",
+      "CompaniesA":" including AmerisourceBergen,  Costco,  CVS Health,  GM, and Kroger. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  First Republic,  Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"it",
+      "Freq":"23%",
+      "CompaniesA":" including AmerisourceBergen,  AT&T,  GM,  Kroger, and Phillips 66. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  First Republic,  GE, and Theranos."
+   },
+   {
+      "Word":"support",
+      "Freq":"7%",
+      "CompaniesA":" including AmerisourceBergen, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"healthier",
+      "Freq":"10%",
+      "CompaniesA":" including AmerisourceBergen,  UnitedHealth, and Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"positive",
+      "Freq":"3%",
+      "CompaniesA":" including AmerisourceBergen. ",
+      "CompaniesB":"It was also mentioned by Borders,  First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"environment",
+      "Freq":"17%",
+      "CompaniesA":" including AmerisourceBergen,  Apple,  Chevron,  Phillips 66, and Valero. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"future",
+      "Freq":"13%",
+      "CompaniesA":" including AmerisourceBergen,  Chevron,  GM, and Phillips 66. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"who",
+      "Freq":"17%",
+      "CompaniesA":" including AmerisourceBergen,  CardinalHealth,  GM,  McKesson, and Verizon. ",
+      "CompaniesB":"It was also mentioned by Borders,  First Republic,  GE, and Washington Mutual."
+   },
+   {
+      "Word":"amerisourcebergen",
+      "Freq":"3%",
+      "CompaniesA":" including AmerisourceBergen. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"health",
+      "Freq":"33%",
+      "CompaniesA":" including AmerisourceBergen,  CardinalHealth,  Centene,  Cigna, and CVS Health. ",
+      "CompaniesB":"It was also mentioned by Enron, and Theranos."
+   },
+   {
+      "Word":"purpose",
+      "Freq":"27%",
+      "CompaniesA":" including AmerisourceBergen,  Centene,  Chevron,  Elevance, and Ford Motor. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"live",
+      "Freq":"17%",
+      "CompaniesA":" including AmerisourceBergen,  AT&T,  UnitedHealth,  Valero, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"futures",
+      "Freq":"3%",
+      "CompaniesA":" including AmerisourceBergen. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"responsible",
+      "Freq":"10%",
+      "CompaniesA":" including AmerisourceBergen,  Google, and Marathon. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"tell",
+      "Freq":"3%",
+      "CompaniesA":" including AmerisourceBergen. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"means",
+      "Freq":"3%",
+      "CompaniesA":" including AmerisourceBergen. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"across",
+      "Freq":"13%",
+      "CompaniesA":" including AmerisourceBergen,  Elevance,  UnitedHealth, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"where",
+      "Freq":"33%",
+      "CompaniesA":" including AmerisourceBergen,  Apple,  CardinalHealth,  Comcast, and CVS Health. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"operate",
+      "Freq":"3%",
+      "CompaniesA":" including AmerisourceBergen. ",
+      "CompaniesB":"It was also mentioned by Enron."
+   },
+   {
+      "Word":"forward",
+      "Freq":"7%",
+      "CompaniesA":" including AmerisourceBergen, and Phillips 66. ",
+      "CompaniesB":"It was also mentioned by First Republic."
+   },
+   {
+      "Word":"ideas",
+      "Freq":"7%",
+      "CompaniesA":" including AmerisourceBergen, and Marathon. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"planet",
+      "Freq":"3%",
+      "CompaniesA":" including AmerisourceBergen. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"governance",
+      "Freq":"7%",
+      "CompaniesA":" including AmerisourceBergen, and Valero. ",
+      "CompaniesB":"It was also mentioned by GE."
+   },
+   {
+      "Word":"around",
+      "Freq":"17%",
+      "CompaniesA":" including AmerisourceBergen,  Comcast,  CVS Health,  Phillips 66, and Verizon. ",
+      "CompaniesB":"It was also mentioned by Borders, and GE."
+   },
+   {
+      "Word":"everyone",
+      "Freq":"23%",
+      "CompaniesA":" including AmerisourceBergen,  Comcast,  GM,  Marathon, and McKesson. ",
+      "CompaniesB":"It was also mentioned by First Republic, and Theranos."
+   },
+   {
+      "Word":"moral",
+      "Freq":"3%",
+      "CompaniesA":" including AmerisourceBergen. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"communities",
+      "Freq":"23%",
+      "CompaniesA":" including AmerisourceBergen,  Comcast,  Costco,  Elevance, and ExxonMobil. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"open",
+      "Freq":"13%",
+      "CompaniesA":" including Apple,  Kroger,  McKesson, and Microsoft. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"workplace",
+      "Freq":"3%",
+      "CompaniesA":" including Apple. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"apple",
+      "Freq":"3%",
+      "CompaniesA":" including Apple. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"agreements",
+      "Freq":"3%",
+      "CompaniesA":" including Apple. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"directors",
+      "Freq":"7%",
+      "CompaniesA":" including Apple, and Marathon. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"practices",
+      "Freq":"10%",
+      "CompaniesA":" including Apple,  Costco, and Google. ",
+      "CompaniesB":"It was also mentioned by Borders,  Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"harassment",
+      "Freq":"3%",
+      "CompaniesA":" including Apple. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"board",
+      "Freq":"7%",
+      "CompaniesA":" including Apple, and Marathon. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"information",
+      "Freq":"10%",
+      "CompaniesA":" including Apple,  Costco, and Google. ",
+      "CompaniesB":"It was also mentioned by Enron,  Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"safe",
+      "Freq":"13%",
+      "CompaniesA":" including Apple,  CVS Health,  ExxonMobil, and Phillips 66. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"believe",
+      "Freq":"13%",
+      "CompaniesA":" including Apple,  Costco,  Microsoft, and Phillips 66. ",
+      "CompaniesB":"It was also mentioned by ArthurAndersen,  Enron, and Washington Mutual."
+   },
+   {
+      "Word":"discrimination",
+      "Freq":"3%",
+      "CompaniesA":" including Apple. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"suppliers",
+      "Freq":"10%",
+      "CompaniesA":" including Apple,  Costco, and Elevance. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron, and Washington Mutual."
+   },
+   {
+      "Word":"policies",
+      "Freq":"3%",
+      "CompaniesA":" including Apple. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"partners",
+      "Freq":"3%",
+      "CompaniesA":" including Apple. ",
+      "CompaniesB":"It was also mentioned by Enron, and Washington Mutual."
+   },
+   {
+      "Word":"ethical",
+      "Freq":"10%",
+      "CompaniesA":" including Apple,  ExxonMobil, and Valero. ",
+      "CompaniesB":"It was also mentioned by Enron."
+   },
+   {
+      "Word":"inclusive",
+      "Freq":"17%",
+      "CompaniesA":" including Apple,  GM,  McKesson,  Phillips 66, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Lehman Brothers."
+   },
+   {
+      "Word":"all",
+      "Freq":"33%",
+      "CompaniesA":" including Apple,  Costco,  Elevance,  ExxonMobil, and Kroger. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  First Republic,  GE, and Theranos."
+   },
+   {
+      "Word":"collaborative",
+      "Freq":"3%",
+      "CompaniesA":" including Apple. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"other",
+      "Freq":"23%",
+      "CompaniesA":" including AT&T,  Kroger,  Marathon,  McKesson, and Phillips 66. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron, and Washington Mutual."
+   },
+   {
+      "Word":"learn",
+      "Freq":"27%",
+      "CompaniesA":" including AT&T,  Comcast,  CVS Health,  Ford Motor, and GM. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"excellence",
+      "Freq":"10%",
+      "CompaniesA":" including AT&T,  McKesson, and Valero. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron, and Washington Mutual."
+   },
+   {
+      "Word":"perfect",
+      "Freq":"3%",
+      "CompaniesA":" including AT&T. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"TRUE",
+      "Freq":"7%",
+      "CompaniesA":" including AT&T, and Kroger. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"very",
+      "Freq":"3%",
+      "CompaniesA":" including AT&T. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"everything",
+      "Freq":"3%",
+      "CompaniesA":" including AT&T. ",
+      "CompaniesB":"It was also mentioned by Enron."
+   },
+   {
+      "Word":"but",
+      "Freq":"7%",
+      "CompaniesA":" including AT&T, and Comcast. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"diversity",
+      "Freq":"13%",
+      "CompaniesA":" including CardinalHealth,  Chevron,  Phillips 66, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Borders,  Lehman Brothers, and Washington Mutual."
+   },
+   {
+      "Word":"manager",
+      "Freq":"3%",
+      "CompaniesA":" including CardinalHealth. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"what",
+      "Freq":"30%",
+      "CompaniesA":" including CardinalHealth,  Comcast,  CVS Health,  Elevance, and Ford Motor. ",
+      "CompaniesB":"It was also mentioned by Borders,  First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"cardinal",
+      "Freq":"3%",
+      "CompaniesA":" including CardinalHealth. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"solutions",
+      "Freq":"17%",
+      "CompaniesA":" including CardinalHealth,  Chevron,  CVS Health,  McKesson, and Verizon. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"products",
+      "Freq":"10%",
+      "CompaniesA":" including CardinalHealth,  Google, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"innovative",
+      "Freq":"3%",
+      "CompaniesA":" including CardinalHealth. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"mission",
+      "Freq":"20%",
+      "CompaniesA":" including CardinalHealth,  Cigna,  Costco,  McKesson, and Microsoft. ",
+      "CompaniesB":"It was also mentioned by Adelphia,  Borders,  Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"brent",
+      "Freq":"3%",
+      "CompaniesA":" including CardinalHealth. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"most",
+      "Freq":"20%",
+      "CompaniesA":" including CardinalHealth,  Chevron,  Comcast,  GM, and JPMorgan Chase & Co. ",
+      "CompaniesB":"It was also mentioned by Borders,  Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"sales",
+      "Freq":"3%",
+      "CompaniesA":" including CardinalHealth. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"how",
+      "Freq":"17%",
+      "CompaniesA":" including CardinalHealth,  Chevron,  JPMorgan Chase & Co,  Microsoft, and Verizon. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"grow",
+      "Freq":"3%",
+      "CompaniesA":" including CardinalHealth. ",
+      "CompaniesB":"It was also mentioned by First Republic."
+   },
+   {
+      "Word":"i",
+      "Freq":"3%",
+      "CompaniesA":" including CardinalHealth. ",
+      "CompaniesB":"It was also mentioned by First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"each",
+      "Freq":"23%",
+      "CompaniesA":" including CardinalHealth,  CVS Health,  Kroger,  McKesson, and Phillips 66. ",
+      "CompaniesB":"It was also mentioned by ArthurAndersen,  Borders, and Washington Mutual."
+   },
+   {
+      "Word":"values",
+      "Freq":"33%",
+      "CompaniesA":" including CardinalHealth,  Chevron,  Comcast,  Elevance, and Kroger. ",
+      "CompaniesB":"It was also mentioned by Adelphia,  Enron,  First Republic,  Silicon Valley Bank, and Washington Mutual."
+   },
+   {
+      "Word":"inclusion",
+      "Freq":"10%",
+      "CompaniesA":" including CardinalHealth,  Phillips 66, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Silicon Valley Bank, and Washington Mutual."
+   },
+   {
+      "Word":"differences",
+      "Freq":"3%",
+      "CompaniesA":" including CardinalHealth. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"time",
+      "Freq":"10%",
+      "CompaniesA":" including Centene,  Costco, and McKesson. ",
+      "CompaniesB":"It was also mentioned by First Republic,  Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"local",
+      "Freq":"7%",
+      "CompaniesA":" including Centene, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron, and Washington Mutual."
+   },
+   {
+      "Word":"one",
+      "Freq":"23%",
+      "CompaniesA":" including Centene,  Ford Motor,  JPMorgan Chase & Co,  Kroger, and Marathon. ",
+      "CompaniesB":"It was also mentioned by Borders,  Lehman Brothers,  Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"has",
+      "Freq":"13%",
+      "CompaniesA":" including Centene,  Ford Motor,  Marathon, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Borders,  First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"centene",
+      "Freq":"3%",
+      "CompaniesA":" including Centene. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"person",
+      "Freq":"7%",
+      "CompaniesA":" including Centene, and Ford Motor. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"community",
+      "Freq":"10%",
+      "CompaniesA":" including Centene,  UnitedHealth, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Adelphia,  Borders,  Enron,  GE, and Washington Mutual."
+   },
+   {
+      "Word":"transforming",
+      "Freq":"3%",
+      "CompaniesA":" including Centene. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"solve",
+      "Freq":"3%",
+      "CompaniesA":" including Chevron. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"ingenuity",
+      "Freq":"3%",
+      "CompaniesA":" including Chevron. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"energy",
+      "Freq":"10%",
+      "CompaniesA":" including Chevron,  Phillips 66, and Valero. ",
+      "CompaniesB":"It was also mentioned by Enron."
+   },
+   {
+      "Word":"culture",
+      "Freq":"17%",
+      "CompaniesA":" including Chevron,  Comcast,  McKesson,  Phillips 66, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Borders,  GE, and Lehman Brothers."
+   },
+   {
+      "Word":"getting",
+      "Freq":"3%",
+      "CompaniesA":" including Chevron. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"progress",
+      "Freq":"7%",
+      "CompaniesA":" including Chevron, and Verizon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"will",
+      "Freq":"13%",
+      "CompaniesA":" including Chevron,  Costco,  ExxonMobil, and UnitedHealth. ",
+      "CompaniesB":"It was also mentioned by Adelphia,  Borders,  Enron,  First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"global",
+      "Freq":"7%",
+      "CompaniesA":" including Chevron, and JPMorgan Chase & Co. ",
+      "CompaniesB":"It was also mentioned by GE, and Lehman Brothers."
+   },
+   {
+      "Word":"this",
+      "Freq":"20%",
+      "CompaniesA":" including Chevron,  ExxonMobil,  GM,  McKesson, and Phillips 66. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron,  First Republic,  GE, and Washington Mutual."
+   },
+   {
+      "Word":"achieve",
+      "Freq":"13%",
+      "CompaniesA":" including Chevron,  Costco,  ExxonMobil, and McKesson. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"expectations",
+      "Freq":"3%",
+      "CompaniesA":" including Chevron. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"chevron",
+      "Freq":"3%",
+      "CompaniesA":" including Chevron. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"aim",
+      "Freq":"7%",
+      "CompaniesA":" including Chevron, and Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"beliefs",
+      "Freq":"3%",
+      "CompaniesA":" including Chevron. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"performance",
+      "Freq":"7%",
+      "CompaniesA":" including Chevron, and UnitedHealth. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"build",
+      "Freq":"20%",
+      "CompaniesA":" including Chevron,  Ford Motor,  McKesson,  UnitedHealth, and Verizon. ",
+      "CompaniesB":"It was also mentioned by Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"relationships",
+      "Freq":"7%",
+      "CompaniesA":" including Chevron, and UnitedHealth. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"partnership",
+      "Freq":"3%",
+      "CompaniesA":" including Chevron. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"integrity",
+      "Freq":"20%",
+      "CompaniesA":" including Chevron,  Comcast,  JPMorgan Chase & Co,  McKesson, and UnitedHealth. ",
+      "CompaniesB":"It was also mentioned by Enron,  GE, and Theranos."
+   },
+   {
+      "Word":"collaborate",
+      "Freq":"3%",
+      "CompaniesA":" including Chevron. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"demands",
+      "Freq":"3%",
+      "CompaniesA":" including Chevron. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"way",
+      "Freq":"10%",
+      "CompaniesA":" including Chevron,  Comcast, and McKesson. ",
+      "CompaniesB":"It was also mentioned by Borders,  First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"enables",
+      "Freq":"7%",
+      "CompaniesA":" including Chevron, and Phillips 66. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"vision",
+      "Freq":"13%",
+      "CompaniesA":" including Chevron,  GM,  Phillips 66, and Walgreens Boots Alliance. ",
+      "CompaniesB":"It was also mentioned by Enron, and Washington Mutual."
+   },
+   {
+      "Word":"any",
+      "Freq":"3%",
+      "CompaniesA":" including Chevron. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"meeting",
+      "Freq":"3%",
+      "CompaniesA":" including Chevron. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"challenges",
+      "Freq":"7%",
+      "CompaniesA":" including Chevron, and McKesson. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"vitality",
+      "Freq":"3%",
+      "CompaniesA":" including Cigna. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"partner",
+      "Freq":"10%",
+      "CompaniesA":" including Cigna,  Elevance, and McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"serve",
+      "Freq":"13%",
+      "CompaniesA":" including Cigna,  CVS Health,  Elevance, and UnitedHealth. ",
+      "CompaniesB":"It was also mentioned by Borders,  First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"innovate",
+      "Freq":"13%",
+      "CompaniesA":" including Cigna,  Comcast,  CVS Health, and Phillips 66. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"patients",
+      "Freq":"7%",
+      "CompaniesA":" including Cigna, and McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"thing",
+      "Freq":"3%",
+      "CompaniesA":" including Comcast. ",
+      "CompaniesB":"It was also mentioned by First Republic."
+   },
+   {
+      "Word":"conference",
+      "Freq":"3%",
+      "CompaniesA":" including Comcast. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"room",
+      "Freq":"3%",
+      "CompaniesA":" including Comcast. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"important",
+      "Freq":"7%",
+      "CompaniesA":" including Comcast, and Costco. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"life",
+      "Freq":"3%",
+      "CompaniesA":" including Comcast. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"spirit",
+      "Freq":"3%",
+      "CompaniesA":" including Comcast. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"been",
+      "Freq":"3%",
+      "CompaniesA":" including Comcast. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"history",
+      "Freq":"7%",
+      "CompaniesA":" including Comcast, and Marathon. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"entrepreneurial",
+      "Freq":"3%",
+      "CompaniesA":" including Comcast. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"ceo",
+      "Freq":"3%",
+      "CompaniesA":" including Comcast. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"us",
+      "Freq":"20%",
+      "CompaniesA":" including Comcast,  Elevance,  ExxonMobil,  GM, and McKesson. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"comcast",
+      "Freq":"3%",
+      "CompaniesA":" including Comcast. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"nbcuniversal",
+      "Freq":"3%",
+      "CompaniesA":" including Comcast. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"supporting",
+      "Freq":"7%",
+      "CompaniesA":" including Comcast, and JPMorgan Chase & Co. ",
+      "CompaniesB":"It was also mentioned by Silicon Valley Bank."
+   },
+   {
+      "Word":"ourselves",
+      "Freq":"10%",
+      "CompaniesA":" including Comcast,  GM, and McKesson. ",
+      "CompaniesB":"It was also mentioned by Enron, and Washington Mutual."
+   },
+   {
+      "Word":"lives",
+      "Freq":"17%",
+      "CompaniesA":" including Comcast,  Kroger,  Phillips 66,  UnitedHealth, and Walgreens Boots Alliance. ",
+      "CompaniesB":"It was also mentioned by Borders, and Theranos."
+   },
+   {
+      "Word":"current",
+      "Freq":"3%",
+      "CompaniesA":" including Costco. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"version",
+      "Freq":"3%",
+      "CompaniesA":" including Costco. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"commitments",
+      "Freq":"7%",
+      "CompaniesA":" including Costco, and UnitedHealth. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"pillars",
+      "Freq":"3%",
+      "CompaniesA":" including Costco. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"goals",
+      "Freq":"10%",
+      "CompaniesA":" including Costco,  McKesson, and Verizon. ",
+      "CompaniesB":"It was also mentioned by Borders,  Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"sustainable",
+      "Freq":"3%",
+      "CompaniesA":" including Costco. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"shareholders",
+      "Freq":"10%",
+      "CompaniesA":" including Costco,  ExxonMobil, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Lehman Brothers."
+   },
+   {
+      "Word":"which",
+      "Freq":"3%",
+      "CompaniesA":" including Costco. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron, and Washington Mutual."
+   },
+   {
+      "Word":"part",
+      "Freq":"3%",
+      "CompaniesA":" including Costco. ",
+      "CompaniesB":"It was also mentioned by Borders,  First Republic,  Lehman Brothers, and Washington Mutual."
+   },
+   {
+      "Word":"efforts",
+      "Freq":"3%",
+      "CompaniesA":" including Costco. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"if",
+      "Freq":"3%",
+      "CompaniesA":" including Costco. ",
+      "CompaniesB":"It was also mentioned by First Republic."
+   },
+   {
+      "Word":"please",
+      "Freq":"3%",
+      "CompaniesA":" including Costco. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"over",
+      "Freq":"7%",
+      "CompaniesA":" including Costco, and GM. ",
+      "CompaniesB":"It was also mentioned by Borders,  GE, and Washington Mutual."
+   },
+   {
+      "Word":"these",
+      "Freq":"7%",
+      "CompaniesA":" including Costco, and Elevance. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron, and Washington Mutual."
+   },
+   {
+      "Word":"resources",
+      "Freq":"3%",
+      "CompaniesA":" including Costco. ",
+      "CompaniesB":"It was also mentioned by Borders, and First Republic."
+   },
+   {
+      "Word":"areas",
+      "Freq":"10%",
+      "CompaniesA":" including Costco,  Elevance, and Verizon. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"sdgs",
+      "Freq":"3%",
+      "CompaniesA":" including Costco. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"sustainability",
+      "Freq":"13%",
+      "CompaniesA":" including Costco,  Ford Motor,  Google, and Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"also",
+      "Freq":"7%",
+      "CompaniesA":" including Costco, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"three",
+      "Freq":"7%",
+      "CompaniesA":" including Costco, and Walgreens Boots Alliance. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"initiatives",
+      "Freq":"3%",
+      "CompaniesA":" including Costco. ",
+      "CompaniesB":"It was also mentioned by GE, and Silicon Valley Bank."
+   },
+   {
+      "Word":"costco",
+      "Freq":"3%",
+      "CompaniesA":" including Costco. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"drive",
+      "Freq":"7%",
+      "CompaniesA":" including Costco, and McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"holistic",
+      "Freq":"3%",
+      "CompaniesA":" including Costco. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"page",
+      "Freq":"3%",
+      "CompaniesA":" including Costco. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"take",
+      "Freq":"7%",
+      "CompaniesA":" including Costco, and McKesson. ",
+      "CompaniesB":"It was also mentioned by Enron, and First Republic."
+   },
+   {
+      "Word":"principles",
+      "Freq":"13%",
+      "CompaniesA":" including Costco,  ExxonMobil,  JPMorgan Chase & Co, and Valero. ",
+      "CompaniesB":"It was also mentioned by Enron, and Washington Mutual."
+   },
+   {
+      "Word":"thrive",
+      "Freq":"7%",
+      "CompaniesA":" including Costco, and Phillips 66. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"aligned",
+      "Freq":"3%",
+      "CompaniesA":" including Costco. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"care",
+      "Freq":"20%",
+      "CompaniesA":" including Costco,  CVS Health,  Elevance,  McKesson, and UnitedHealth. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"approach",
+      "Freq":"10%",
+      "CompaniesA":" including Costco,  Elevance, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"updates",
+      "Freq":"3%",
+      "CompaniesA":" including Costco. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"colleagues",
+      "Freq":"3%",
+      "CompaniesA":" including CVS Health. ",
+      "CompaniesB":"It was also mentioned by First Republic."
+   },
+   {
+      "Word":"safety",
+      "Freq":"10%",
+      "CompaniesA":" including CVS Health,  GM, and Valero. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"put",
+      "Freq":"3%",
+      "CompaniesA":" including CVS Health. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"heart",
+      "Freq":"3%",
+      "CompaniesA":" including CVS Health. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"challenge",
+      "Freq":"7%",
+      "CompaniesA":" including CVS Health, and Phillips 66. ",
+      "CompaniesB":"It was also mentioned by Theranos."
+   },
+   {
+      "Word":"listen",
+      "Freq":"3%",
+      "CompaniesA":" including CVS Health. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"data",
+      "Freq":"7%",
+      "CompaniesA":" including Elevance, and Verizon. ",
+      "CompaniesB":"It was also mentioned by Theranos."
+   },
+   {
+      "Word":"improving",
+      "Freq":"7%",
+      "CompaniesA":" including Elevance, and Phillips 66. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"insights",
+      "Freq":"3%",
+      "CompaniesA":" including Elevance. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"experiences",
+      "Freq":"7%",
+      "CompaniesA":" including Elevance, and Microsoft. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"equity",
+      "Freq":"7%",
+      "CompaniesA":" including Elevance, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Lehman Brothers, and Washington Mutual."
+   },
+   {
+      "Word":"humanity",
+      "Freq":"3%",
+      "CompaniesA":" including Elevance. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"lifetime",
+      "Freq":"3%",
+      "CompaniesA":" including Elevance. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"nearly",
+      "Freq":"3%",
+      "CompaniesA":" including Elevance. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"associates",
+      "Freq":"10%",
+      "CompaniesA":" including Elevance,  Kroger, and Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"outcomes",
+      "Freq":"7%",
+      "CompaniesA":" including Elevance, and UnitedHealth. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"elevance",
+      "Freq":"3%",
+      "CompaniesA":" including Elevance. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"center",
+      "Freq":"10%",
+      "CompaniesA":" including Elevance,  McKesson, and Microsoft. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"responsibility",
+      "Freq":"13%",
+      "CompaniesA":" including Elevance,  McKesson,  Microsoft, and Verizon. ",
+      "CompaniesB":"It was also mentioned by Enron, and First Republic."
+   },
+   {
+      "Word":"needs",
+      "Freq":"3%",
+      "CompaniesA":" including Elevance. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"whole",
+      "Freq":"3%",
+      "CompaniesA":" including Elevance. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"trusted",
+      "Freq":"3%",
+      "CompaniesA":" including Elevance. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"strategy",
+      "Freq":"3%",
+      "CompaniesA":" including Elevance. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"shape",
+      "Freq":"3%",
+      "CompaniesA":" including Elevance. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"use",
+      "Freq":"7%",
+      "CompaniesA":" including Elevance, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"into",
+      "Freq":"3%",
+      "CompaniesA":" including Elevance. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"exceptional",
+      "Freq":"3%",
+      "CompaniesA":" including Elevance. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"address",
+      "Freq":"3%",
+      "CompaniesA":" including Elevance. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"digital",
+      "Freq":"7%",
+      "CompaniesA":" including Elevance, and Verizon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"corporate",
+      "Freq":"7%",
+      "CompaniesA":" including Elevance, and Microsoft. ",
+      "CompaniesB":"It was also mentioned by Adelphia,  Borders, and Washington Mutual."
+   },
+   {
+      "Word":"bold",
+      "Freq":"7%",
+      "CompaniesA":" including Elevance, and GM. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"foundation",
+      "Freq":"10%",
+      "CompaniesA":" including Elevance,  Valero, and Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"provider",
+      "Freq":"3%",
+      "CompaniesA":" including Elevance. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"platform",
+      "Freq":"3%",
+      "CompaniesA":" including Elevance. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"strive",
+      "Freq":"7%",
+      "CompaniesA":" including ExxonMobil, and UnitedHealth. ",
+      "CompaniesB":"It was also mentioned by First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"competitive",
+      "Freq":"7%",
+      "CompaniesA":" including ExxonMobil, and Phillips 66. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"superior",
+      "Freq":"3%",
+      "CompaniesA":" including ExxonMobil. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"running",
+      "Freq":"3%",
+      "CompaniesA":" including ExxonMobil. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"mobil",
+      "Freq":"3%",
+      "CompaniesA":" including ExxonMobil. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"guiding",
+      "Freq":"7%",
+      "CompaniesA":" including ExxonMobil, and Valero. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"maintain",
+      "Freq":"3%",
+      "CompaniesA":" including ExxonMobil. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"being",
+      "Freq":"3%",
+      "CompaniesA":" including ExxonMobil. ",
+      "CompaniesB":"It was also mentioned by First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"while",
+      "Freq":"7%",
+      "CompaniesA":" including ExxonMobil, and Phillips 66. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"available",
+      "Freq":"3%",
+      "CompaniesA":" including ExxonMobil. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"financial",
+      "Freq":"3%",
+      "CompaniesA":" including ExxonMobil. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"through",
+      "Freq":"20%",
+      "CompaniesA":" including ExxonMobil,  Google,  UnitedHealth,  Valero, and Walgreens Boots Alliance. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"adhering",
+      "Freq":"3%",
+      "CompaniesA":" including ExxonMobil. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"edge",
+      "Freq":"3%",
+      "CompaniesA":" including ExxonMobil. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"exxon",
+      "Freq":"3%",
+      "CompaniesA":" including ExxonMobil. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"investment",
+      "Freq":"3%",
+      "CompaniesA":" including ExxonMobil. ",
+      "CompaniesB":"It was also mentioned by Lehman Brothers, and Washington Mutual."
+   },
+   {
+      "Word":"consistently",
+      "Freq":"7%",
+      "CompaniesA":" including ExxonMobil, and UnitedHealth. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"opportunities",
+      "Freq":"3%",
+      "CompaniesA":" including ExxonMobil. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"corporation",
+      "Freq":"3%",
+      "CompaniesA":" including ExxonMobil. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"requires",
+      "Freq":"3%",
+      "CompaniesA":" including ExxonMobil. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"integrated",
+      "Freq":"3%",
+      "CompaniesA":" including Ford Motor. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"ve",
+      "Freq":"7%",
+      "CompaniesA":" including Ford Motor, and Verizon. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"free",
+      "Freq":"3%",
+      "CompaniesA":" including Ford Motor. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"you",
+      "Freq":"10%",
+      "CompaniesA":" including Ford Motor,  Microsoft, and Verizon. ",
+      "CompaniesB":"It was also mentioned by Borders,  Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"move",
+      "Freq":"3%",
+      "CompaniesA":" including Ford Motor. ",
+      "CompaniesB":"It was also mentioned by First Republic."
+   },
+   {
+      "Word":"help",
+      "Freq":"13%",
+      "CompaniesA":" including Ford Motor,  Google,  UnitedHealth, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"ford",
+      "Freq":"3%",
+      "CompaniesA":" including Ford Motor. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"report",
+      "Freq":"3%",
+      "CompaniesA":" including Ford Motor. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"dreams",
+      "Freq":"3%",
+      "CompaniesA":" including Ford Motor. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"emissions",
+      "Freq":"3%",
+      "CompaniesA":" including GM. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"engineering",
+      "Freq":"3%",
+      "CompaniesA":" including GM. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"speaking",
+      "Freq":"3%",
+      "CompaniesA":" including GM. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"congestion",
+      "Freq":"3%",
+      "CompaniesA":" including GM. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"autonomous",
+      "Freq":"3%",
+      "CompaniesA":" including GM. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"zero",
+      "Freq":"3%",
+      "CompaniesA":" including GM. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"bringing",
+      "Freq":"7%",
+      "CompaniesA":" including GM, and McKesson. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"together",
+      "Freq":"7%",
+      "CompaniesA":" including GM, and McKesson. ",
+      "CompaniesB":"It was also mentioned by GE."
+   },
+   {
+      "Word":"technology",
+      "Freq":"10%",
+      "CompaniesA":" including GM,  Microsoft, and Verizon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"crashes",
+      "Freq":"3%",
+      "CompaniesA":" including GM. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"belonging",
+      "Freq":"3%",
+      "CompaniesA":" including Google. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"billion",
+      "Freq":"7%",
+      "CompaniesA":" including Google, and Verizon. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"possible",
+      "Freq":"3%",
+      "CompaniesA":" including Google. ",
+      "CompaniesB":"It was also mentioned by Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"building",
+      "Freq":"3%",
+      "CompaniesA":" including Google. ",
+      "CompaniesB":"It was also mentioned by Borders, and GE."
+   },
+   {
+      "Word":"crises",
+      "Freq":"3%",
+      "CompaniesA":" including Google. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"opportunity",
+      "Freq":"7%",
+      "CompaniesA":" including Google, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"knowledge",
+      "Freq":"3%",
+      "CompaniesA":" including Google. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"users",
+      "Freq":"3%",
+      "CompaniesA":" including Google. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"helping",
+      "Freq":"10%",
+      "CompaniesA":" including Google,  UnitedHealth, and Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"fortune",
+      "Freq":"3%",
+      "CompaniesA":" including JPMorgan Chase & Co. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"proud",
+      "Freq":"3%",
+      "CompaniesA":" including JPMorgan Chase & Co. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"magazine",
+      "Freq":"3%",
+      "CompaniesA":" including JPMorgan Chase & Co. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"attractive",
+      "Freq":"3%",
+      "CompaniesA":" including JPMorgan Chase & Co. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"chase",
+      "Freq":"3%",
+      "CompaniesA":" including JPMorgan Chase & Co. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"ranked",
+      "Freq":"3%",
+      "CompaniesA":" including JPMorgan Chase & Co. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"under",
+      "Freq":"7%",
+      "CompaniesA":" including JPMorgan Chase & Co, and Kroger. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"today",
+      "Freq":"3%",
+      "CompaniesA":" including JPMorgan Chase & Co. ",
+      "CompaniesB":"It was also mentioned by GE."
+   },
+   {
+      "Word":"its",
+      "Freq":"3%",
+      "CompaniesA":" including JPMorgan Chase & Co. ",
+      "CompaniesB":"It was also mentioned by Borders,  Enron, and Washington Mutual."
+   },
+   {
+      "Word":"jpmorgan",
+      "Freq":"3%",
+      "CompaniesA":" including JPMorgan Chase & Co. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"employers",
+      "Freq":"3%",
+      "CompaniesA":" including JPMorgan Chase & Co. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"100",
+      "Freq":"3%",
+      "CompaniesA":" including JPMorgan Chase & Co. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"students",
+      "Freq":"3%",
+      "CompaniesA":" including JPMorgan Chase & Co. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"5",
+      "Freq":"3%",
+      "CompaniesA":" including JPMorgan Chase & Co. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"top",
+      "Freq":"3%",
+      "CompaniesA":" including JPMorgan Chase & Co. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"client",
+      "Freq":"3%",
+      "CompaniesA":" including JPMorgan Chase & Co. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"hungry",
+      "Freq":"3%",
+      "CompaniesA":" including Kroger. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"up",
+      "Freq":"3%",
+      "CompaniesA":" including Kroger. ",
+      "CompaniesB":"It was also mentioned by First Republic."
+   },
+   {
+      "Word":"food",
+      "Freq":"7%",
+      "CompaniesA":" including Kroger, and Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"vendors",
+      "Freq":"7%",
+      "CompaniesA":" including Kroger, and McKesson. ",
+      "CompaniesB":"It was also mentioned by Enron."
+   },
+   {
+      "Word":"lift",
+      "Freq":"3%",
+      "CompaniesA":" including Kroger. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"kroger",
+      "Freq":"3%",
+      "CompaniesA":" including Kroger. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"expect",
+      "Freq":"3%",
+      "CompaniesA":" including Kroger. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"re",
+      "Freq":"10%",
+      "CompaniesA":" including Kroger,  Verizon, and Walgreens Boots Alliance. ",
+      "CompaniesB":"It was also mentioned by First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"making",
+      "Freq":"3%",
+      "CompaniesA":" including Marathon. ",
+      "CompaniesB":"It was also mentioned by Borders,  Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"perspectives",
+      "Freq":"7%",
+      "CompaniesA":" including Marathon, and Phillips 66. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"meet",
+      "Freq":"3%",
+      "CompaniesA":" including Marathon. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"share",
+      "Freq":"3%",
+      "CompaniesA":" including Marathon. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"leadership",
+      "Freq":"7%",
+      "CompaniesA":" including Marathon, and McKesson. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"operations",
+      "Freq":"3%",
+      "CompaniesA":" including Marathon. ",
+      "CompaniesB":"It was also mentioned by Borders,  GE, and Washington Mutual."
+   },
+   {
+      "Word":"mpc",
+      "Freq":"3%",
+      "CompaniesA":" including Marathon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"difference",
+      "Freq":"3%",
+      "CompaniesA":" including Marathon. ",
+      "CompaniesB":"It was also mentioned by First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"another",
+      "Freq":"3%",
+      "CompaniesA":" including Marathon. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"risks",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"leader",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"execute",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"mean",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"common",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"sets",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"apart",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"engage",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"behaviors",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"treat",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":"It was also mentioned by Enron."
+   },
+   {
+      "Word":"i2care",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"leverage",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"decide",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"ilead",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"logoat",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"inspire",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"promises",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"mckesson",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"rally",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"accountability",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":"It was also mentioned by Adelphia."
+   },
+   {
+      "Word":"advance",
+      "Freq":"7%",
+      "CompaniesA":" including McKesson, and Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"i²care",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"debate",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"encourage",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"talent",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"choose",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"industry",
+      "Freq":"3%",
+      "CompaniesA":" including McKesson. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"working",
+      "Freq":"7%",
+      "CompaniesA":" including Microsoft, and UnitedHealth. ",
+      "CompaniesB":"It was also mentioned by Enron,  Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"innovation",
+      "Freq":"7%",
+      "CompaniesA":" including Microsoft, and UnitedHealth. ",
+      "CompaniesB":"It was also mentioned by Silicon Valley Bank."
+   },
+   {
+      "Word":"wearing",
+      "Freq":"3%",
+      "CompaniesA":" including Microsoft. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"out",
+      "Freq":"3%",
+      "CompaniesA":" including Microsoft. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"your",
+      "Freq":"7%",
+      "CompaniesA":" including Microsoft, and Verizon. ",
+      "CompaniesB":"It was also mentioned by Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"force",
+      "Freq":"3%",
+      "CompaniesA":" including Microsoft. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"male",
+      "Freq":"3%",
+      "CompaniesA":" including Microsoft. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"looking",
+      "Freq":"3%",
+      "CompaniesA":" including Microsoft. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"trustworthy",
+      "Freq":"3%",
+      "CompaniesA":" including Microsoft. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"good",
+      "Freq":"10%",
+      "CompaniesA":" including Microsoft,  Phillips 66, and Valero. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"ai",
+      "Freq":"3%",
+      "CompaniesA":" including Microsoft. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"office",
+      "Freq":"3%",
+      "CompaniesA":" including Microsoft. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"woman",
+      "Freq":"3%",
+      "CompaniesA":" including Microsoft. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"check",
+      "Freq":"3%",
+      "CompaniesA":" including Microsoft. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"computing",
+      "Freq":"3%",
+      "CompaniesA":" including Microsoft. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"extraordinary",
+      "Freq":"3%",
+      "CompaniesA":" including Phillips 66. ",
+      "CompaniesB":"It was also mentioned by First Republic."
+   },
+   {
+      "Word":"because",
+      "Freq":"3%",
+      "CompaniesA":" including Phillips 66. ",
+      "CompaniesB":"It was also mentioned by Enron,  Theranos, and Washington Mutual."
+   },
+   {
+      "Word":"phillips",
+      "Freq":"3%",
+      "CompaniesA":" including Phillips 66. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"workforce",
+      "Freq":"3%",
+      "CompaniesA":" including Phillips 66. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"seen",
+      "Freq":"3%",
+      "CompaniesA":" including Phillips 66. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"66",
+      "Freq":"3%",
+      "CompaniesA":" including Phillips 66. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"different",
+      "Freq":"3%",
+      "CompaniesA":" including Phillips 66. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"advantage",
+      "Freq":"3%",
+      "CompaniesA":" including Phillips 66. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"greater",
+      "Freq":"3%",
+      "CompaniesA":" including Phillips 66. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"feel",
+      "Freq":"3%",
+      "CompaniesA":" including Phillips 66. ",
+      "CompaniesB":"It was also mentioned by First Republic."
+   },
+   {
+      "Word":"goal",
+      "Freq":"3%",
+      "CompaniesA":" including Phillips 66. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"heard",
+      "Freq":"3%",
+      "CompaniesA":" including Phillips 66. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"providing",
+      "Freq":"7%",
+      "CompaniesA":" including Phillips 66, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"respected",
+      "Freq":"3%",
+      "CompaniesA":" including Phillips 66. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"system",
+      "Freq":"3%",
+      "CompaniesA":" including UnitedHealth. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"professionals",
+      "Freq":"3%",
+      "CompaniesA":" including UnitedHealth. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"using",
+      "Freq":"3%",
+      "CompaniesA":" including UnitedHealth. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"collaboration",
+      "Freq":"3%",
+      "CompaniesA":" including UnitedHealth. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"key",
+      "Freq":"3%",
+      "CompaniesA":" including UnitedHealth. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"group",
+      "Freq":"3%",
+      "CompaniesA":" including UnitedHealth. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"access",
+      "Freq":"3%",
+      "CompaniesA":" including UnitedHealth. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"society",
+      "Freq":"7%",
+      "CompaniesA":" including UnitedHealth, and Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"personal",
+      "Freq":"3%",
+      "CompaniesA":" including UnitedHealth. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"individual",
+      "Freq":"3%",
+      "CompaniesA":" including UnitedHealth. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"strong",
+      "Freq":"3%",
+      "CompaniesA":" including Valero. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"stakeholders",
+      "Freq":"7%",
+      "CompaniesA":" including Valero, and Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"businesses",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"generated",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"carbon",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"communications",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"networks",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"education",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":"It was also mentioned by Enron, and Washington Mutual."
+   },
+   {
+      "Word":"cities",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"verizon",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"careers",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"want",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"companies",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"get",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"transform",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"offer",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"video",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"change",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":"It was also mentioned by GE."
+   },
+   {
+      "Word":"services",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"locations",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"comes",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"voice",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"inside",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"some",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":"It was also mentioned by Washington Mutual."
+   },
+   {
+      "Word":"benefits",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"delivering",
+      "Freq":"3%",
+      "CompaniesA":" including Verizon. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"healthy",
+      "Freq":"7%",
+      "CompaniesA":" including Walgreens Boots Alliance, and Walmart. ",
+      "CompaniesB":"It was also mentioned by Enron."
+   },
+   {
+      "Word":"wellbeing",
+      "Freq":"3%",
+      "CompaniesA":" including Walgreens Boots Alliance. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"read",
+      "Freq":"7%",
+      "CompaniesA":" including Walgreens Boots Alliance, and Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"icon",
+      "Freq":"3%",
+      "CompaniesA":" including Walgreens Boots Alliance. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"hub",
+      "Freq":"3%",
+      "CompaniesA":" including Walgreens Boots Alliance. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"news",
+      "Freq":"3%",
+      "CompaniesA":" including Walgreens Boots Alliance. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"colleague",
+      "Freq":"3%",
+      "CompaniesA":" including Walgreens Boots Alliance. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"joyful",
+      "Freq":"3%",
+      "CompaniesA":" including Walgreens Boots Alliance. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"talking",
+      "Freq":"3%",
+      "CompaniesA":" including Walgreens Boots Alliance. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"stories",
+      "Freq":"3%",
+      "CompaniesA":" including Walgreens Boots Alliance. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"strengthening",
+      "Freq":"3%",
+      "CompaniesA":" including Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"chains",
+      "Freq":"3%",
+      "CompaniesA":" including Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"both",
+      "Freq":"3%",
+      "CompaniesA":" including Walmart. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"giving",
+      "Freq":"3%",
+      "CompaniesA":" including Walmart. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"esg",
+      "Freq":"3%",
+      "CompaniesA":" including Walmart. ",
+      "CompaniesB":"It was also mentioned by Silicon Valley Bank."
+   },
+   {
+      "Word":"wellness",
+      "Freq":"3%",
+      "CompaniesA":" including Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"ethics",
+      "Freq":"3%",
+      "CompaniesA":" including Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"focused",
+      "Freq":"3%",
+      "CompaniesA":" including Walmart. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   },
+   {
+      "Word":"philanthropy",
+      "Freq":"3%",
+      "CompaniesA":" including Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"fy2023",
+      "Freq":"3%",
+      "CompaniesA":" including Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"issues",
+      "Freq":"3%",
+      "CompaniesA":" including Walmart. ",
+      "CompaniesB":"It was also mentioned by Borders, and Washington Mutual."
+   },
+   {
+      "Word":"provide",
+      "Freq":"3%",
+      "CompaniesA":" including Walmart. ",
+      "CompaniesB":"It was also mentioned by Borders,  First Republic, and Washington Mutual."
+   },
+   {
+      "Word":"last",
+      "Freq":"3%",
+      "CompaniesA":" including Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"creates",
+      "Freq":"3%",
+      "CompaniesA":" including Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"creating",
+      "Freq":"3%",
+      "CompaniesA":" including Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"societal",
+      "Freq":"3%",
+      "CompaniesA":" including Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"walmart",
+      "Freq":"3%",
+      "CompaniesA":" including Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"supply",
+      "Freq":"3%",
+      "CompaniesA":" including Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"strengths",
+      "Freq":"3%",
+      "CompaniesA":" including Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"philanthropic",
+      "Freq":"3%",
+      "CompaniesA":" including Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"highlights",
+      "Freq":"3%",
+      "CompaniesA":" including Walmart. ",
+      "CompaniesB":""
+   },
+   {
+      "Word":"related",
+      "Freq":"3%",
+      "CompaniesA":" including Walmart. ",
+      "CompaniesB":"It was also mentioned by Borders."
+   }
+]
+  </script>
+</body>
+</html>
