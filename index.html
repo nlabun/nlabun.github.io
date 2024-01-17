@@ -1,146 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DateNick</title>
-    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Varela Round', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-
-        .profile-card {
-            width: 300px;
-            height: 500px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            background-color: white;
-            border-radius: 15px;
-            transition: transform 0.5s ease, opacity 0.5s ease;
-            opacity: 1;
-            position: relative;
-        }
-
-        .profile-card-header {
-            text-align: left;
-            margin-bottom: 3px;
-            margin-top: 1px; /* Reduced top margin */
-        }
-
-        .profile-img {
-            width: 100%;
-            height: auto;
-            border-radius: 15px;
-            margin-bottom: 15px;
-        }
-
-        .profile-description {
-            text-align: left;
-            margin-left: 20px;
-            margin-right: 20px;
-        }
-
-        .buttons {
-            position: absolute;
-            width: 100%;
-            bottom: 20px;
-            left: 0;
-            text-align: center;
-        }
-
-        button {
-            width: 60px;
-            height: 60px;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 20px;
-            background-size: 50%;
-            background-repeat: no-repeat;
-            background-position: center;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-        }
-
-        #passButton {
-            background-color: #FFB6C1; /* Light magenta */
-            background-image: url('x-icon.png');
-        }
-
-        #matchButton {
-            background-color: #90EE90; /* Light green */
-            background-image: url('star-icon.png');
-        }
-
-        button:focus {
-            outline: none;
-        }
-    </style>
-</head>
-<body>
-    <div id="profileCard" class="profile-card">
-        <div class="profile-card-header">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>DateNick</title>
+      <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+      <style>
+         body {
+         font-family: 'Varela Round', sans-serif;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         height: 100vh;
+         margin: 0;
+         background-color: #f0f0f0;
+         }
+         .profile-card {
+         width: 300px;
+         height: 500px;
+         padding: 20px;
+         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+         background-color: white;
+         border-radius: 15px;
+         transition: transform 0.5s ease, opacity 0.5s ease;
+         opacity: 1;
+         position: relative;
+         }
+         .profile-card-header {
+         text-align: left;
+         margin-bottom: 3px; /* Keep or adjust bottom margin */
+         margin-top: 1px; /* Reduced top margin */
+         padding-top: 0; /* Reduced top padding */
+         padding-bottom: 0; /* Reduced bottom padding */
+         }
+         .profile-card-header h1 {
+         margin-top: 0; /* Remove top margin of h1 */
+         margin-bottom: 0; /* Remove bottom margin of h1 */
+         font-size: 30px; /* Adjust font size as needed */
+         }
+         .profile-img {
+         width: 100%; /* Width of the card */
+         height: auto; /* Adjusted to maintain aspect ratio */
+         max-height: 300px; /* Equal to the width for a square appearance */
+         object-fit: cover; /* Ensures the image covers the area without distortion */
+         border-radius: 15px;
+         margin-bottom: 15px;
+         }
+         .name-age {
+         display: flex;
+         align-items: baseline;
+         margin-bottom: 10px;
+         }
+         .name {
+         font-size: 24px; /* Larger, bold font for name */
+         font-weight: bold;
+         color: black;
+         margin-right: 10px;
+         }
+         .age {
+         font-size: 18px; /* Smaller, light grey font for age */
+         color: lightgrey;
+         }
+         .profile-description {
+         text-align: left;
+         margin-left: 20px;
+         margin-right: 20px;
+         font-size: 14px; /* Smaller text for description */
+         }
+         .buttons {
+         position: absolute;
+         width: 100%;
+         bottom: 20px;
+         left: 0;
+         text-align: center;
+         }
+         button {
+         width: 60px;
+         height: 60px;
+         border: none;
+         border-radius: 50%;
+         cursor: pointer;
+         display: inline-flex;
+         align-items: center;
+         justify-content: center;
+         margin: 0 20px;
+         background-size: 50%;
+         background-repeat: no-repeat;
+         background-position: center;
+         box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+         }
+         #passButton {
+         background-color: #FFB6C1; /* Light magenta */
+         background-image: url('x-icon.png');
+         }
+         #matchButton {
+         background-color: #90EE90; /* Light green */
+         background-image: url('star-icon.png');
+         }
+         button:focus {
+         outline: none;
+         }
+      </style>
+   </head>
+   <body>
+      <div id="profileCard" class="profile-card">
+         <div class="profile-card-header">
             <h1>DateNick</h1>
-        </div>
-        <img id="profileImg" src="pic1.jpg" alt="Profile Picture" class="profile-img">
-        <p id="profileDescription" class="profile-description">Love hiking, reading, and coffee.</p>
-        <div class="buttons">
+         </div>
+         <img id="profileImg" src="pic1.jpg" alt="Profile Picture" class="profile-img">
+         <div class="name-age">
+            <div class="name">Nick</div>
+            <div class="age">25</div>
+         </div>
+         <p id="profileDescription" class="profile-description">Love hiking, reading, and coffee.</p>
+         <div class="buttons">
             <button id="passButton"></button>
             <button id="matchButton"></button>
-        </div>
-    </div>
-
-<script>
-    const descriptions = [
-        "I'm in the top 99% of most attractive Stern students",
-        "An expert in turning alcohol into regrettable texts",
-        "Nick is the human equivalent of a participation trophy",
-        "I'm like a fine wine, if the fine wine was actually Natty Light"
-    ];
-
-    const images = ['pic1.jpg','pic2.jpg','pic3.jpg'];
-
-    document.getElementById('matchButton').addEventListener('click', function() {
-        swipeProfile(true);
-    });
-
-    document.getElementById('passButton').addEventListener('click', function() {
-        swipeProfile(false);
-    });
-
-    function swipeProfile(isMatch) {
-        const profileCard = document.getElementById('profileCard');
-        profileCard.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
-        profileCard.style.transform = `translateX(${isMatch ? 100 : -100}%)`;
-        profileCard.style.opacity = '0';
-
-        setTimeout(() => {
-            changeProfileDescription();
-            changeProfileImage();
-            profileCard.style.transition = 'none'; // Disable transition for instant reset
-            profileCard.style.transform = 'none'; // Reset position instantly
-            profileCard.style.opacity = '1'; // Make card visible again
-        }, 500); // This should match the duration of the CSS transition
-    }
-
-    function changeProfileDescription() {
-        const randomDescription = descriptions[Math.floor(Math.random() * descriptions.length)];
-        document.getElementById('profileDescription').textContent = randomDescription;
-    }
-
-    function changeProfileImage() {
-        const randomImage = images[Math.floor(Math.random() * images.length)];
-        document.getElementById('profileImg').src = randomImage;
-    }
-</script>
-</body>
+         </div>
+      </div>
+      <script>
+         const descriptions = [
+             "I'm in the top 99% of most attractive Stern students",
+             "An expert in turning alcohol into regrettable texts",
+             "Nick is the human equivalent of a participation trophy",
+             "I'm like a fine wine, if the fine wine was actually Natty Light"
+         ];
+         
+         const images = ['pic1.jpg', 'pic2.jpg', 'pic3.jpg'];
+         
+         document.getElementById('matchButton').addEventListener('click', function() {
+             swipeProfile(true);
+         });
+         
+         document.getElementById('passButton').addEventListener('click', function() {
+             swipeProfile(false);
+         });
+         
+         function swipeProfile(isMatch) {
+             const profileCard = document.getElementById('profileCard');
+             profileCard.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
+             profileCard.style.transform = `translateX(${isMatch ? 100 : -100}%)`;
+             profileCard.style.opacity = '0';
+         
+             setTimeout(() => {
+                 changeProfileDescription();
+                 changeProfileImage();
+                 profileCard.style.transition = 'none'; // Disable transition for instant reset
+                 profileCard.style.transform = 'none'; // Reset position instantly
+                 profileCard.style.opacity = '1'; // Make card visible again
+             }, 500); // This should match the duration of the CSS transition
+         }
+         
+         function changeProfileDescription() {
+             const randomDescription = descriptions[Math.floor(Math.random() * descriptions.length)];
+             document.getElementById('profileDescription').textContent = randomDescription;
+         }
+         
+         function changeProfileImage() {
+             const randomImage = images[Math.floor(Math.random() * images.length)];
+             document.getElementById('profileImg').src = randomImage;
+         }
+      </script>
+   </body>
 </html>
